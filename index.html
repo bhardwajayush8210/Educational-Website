@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduQuest - Interactive Learning Platform</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Ensure the footer stays at the bottom */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        main {
+            flex: 1;
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-br from-blue-100 to-purple-100">
+    <header class="bg-blue-600 text-white p-4">
+        <div class="container mx-auto flex items-center justify-between">
+            <div class="flex items-center">
+                <img src="https://api.iconify.design/lucide:graduation-cap.svg?color=white" alt="EduQuest Logo"
+                    class="w-8 h-8 mr-2">
+                <h1 class="text-2xl font-bold">RuralEduHub</h1>
+            </div>
+            <nav>
+                <ul class="flex space-x-4">
+                    <li><a href="#" class="hover:text-blue-200">Home</a></li>
+                    <li><a href="#" class="hover:text-blue-200">About</a></li>
+                    <li><a href="/contact.html" target="_blank" class="hover:text-blue-200">Contact</a></li>
+                    <li><button id="authButton"
+                            class="bg-white text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-100">Sign In</button></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <div id="authModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
+            <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+                <div id="signInForm">
+                    <h3 class="text-lg font-medium leading-6 text-gray-900 mb-4">Sign In</h3>
+                    <input type="email" id="signInEmail" placeholder="Email"
+                        class="mb-2 w-full p-2 border rounded">
+                    <input type="password" id="signInPassword" placeholder="Password"
+                        class="mb-4 w-full p-2 border rounded">
+                    <button id="signInSubmit"
+                        class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Sign In</button>
+                    <p class="mt-2 text-center">Don't have an account? <a href="#" id="showSignUp"
+                            class="text-blue-500">Sign Up</a></p>
+                </div>
+                <div id="signUpForm" class="hidden">
+                    <h3 class="text-lg font-medium leading-6 text-gray-900 mb-4">Sign Up</h3>
+                    <input type="text" id="signUpName" placeholder="Full Name"
+                        class="mb-2 w-full p-2 border rounded">
+                    <input type="email" id="signUpEmail" placeholder="Email"
+                        class="mb-2 w-full p-2 border rounded">
+                    <input type="password" id="signUpPassword" placeholder="Password"
+                        class="mb-2 w-full p-2 border rounded">
+                    <select id="signUpRole" class="mb-4 w-full p-2 border rounded">
+                        <option value="student">Student</option>
+                        <option value="teacher">Teacher</option>
+                    </select>
+                    <button id="signUpSubmit"
+                        class="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600">Sign Up</button>
+                    <p class="mt-2 text-center">Already have an account? <a href="#" id="showSignIn"
+                            class="text-blue-500">Sign In</a></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="contentTabs" class="flex justify-center mb-8">
+            <button id="lessonsTab" class="px-4 py-2 mr-2 rounded-lg bg-blue-500 text-white">
+                <img src="https://api.iconify.design/lucide:book.svg?color=white" alt="Lessons"
+                    class="inline-block mr-2 w-5 h-5">
+                Lessons
+            </button>
+            <button id="gamesTab" class="px-4 py-2 mr-2 rounded-lg bg-gray-200 text-gray-700">
+                <img src="https://api.iconify.design/lucide:award.svg?color=currentColor" alt="Games"
+                    class="inline-block mr-2 w-5 h-5">
+                Games
+            </button>
+            <button id="aiTab" class="px-4 py-2 mr-2 rounded-lg bg-gray-200 text-gray-700">
+                <img src="https://api.iconify.design/lucide:message-square.svg?color=currentColor" alt="AI Help"
+                    class="inline-block mr-2 w-5 h-5">
+                AI Help
+            </button>
+            <button id="arvrTab" class="px-4 py-2 mr-2 rounded-lg bg-gray-200 text-gray-700 flex items-center">
+                <img src="https://api.iconify.design/bi:vr.svg?color=currentColor" alt="AR/VR"
+                    class="w-5 h-5 mr-2">
+                AR/VR
+            </button>
+
+            <button id="contestsTab" class="px-4 py-2 mr-2 rounded-lg bg-gray-200 text-gray-700">
+                <img src="https://api.iconify.design/lucide:trophy.svg?color=currentColor" alt="Contests"
+                    class="inline-block mr-2 w-5 h-5">
+                Contests
+            </button>
+
+        </div>
+
+        <div id="lessonsContent" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Lesson cards will be dynamically inserted here -->
+        </div>
+
+        <div id="gamesContent" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 hidden">
+            <!-- Game cards will be dynamically inserted here -->
+        </div>
+
+        <div id="aiContent" class="hidden">
+            <div class="bg-white rounded-lg shadow-md p-4 max-w-2xl mx-auto">
+                <div id="chatMessages" class="h-96 overflow-y-auto mb-4"></div>
+                <div class="flex items-center">
+                    <input type="text" id="chatInput"
+                        class="flex-grow border rounded-l-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="Ask me anything...">
+                    <button id="imageUpload" class="bg-gray-200 p-2 hover:bg-gray-300">
+                        <img src="https://api.iconify.design/lucide:image.svg" alt="Upload Image" class="w-5 h-5">
+                    </button>
+                    <button id="audioUpload" class="bg-gray-200 p-2 hover:bg-gray-300">
+                        <img src="https://api.iconify.design/lucide:mic.svg" alt="Upload Audio" class="w-5 h-5">
+                    </button>
+                    <button id="videoUpload" class="bg-gray-200 p-2 hover:bg-gray-300">
+                        <img src="https://api.iconify.design/lucide:video.svg" alt="Upload Video" class="w-5 h-5">
+                    </button>
+                    <button id="sendMessage"
+                        class="bg-blue-500 text-white p-2 rounded-r-lg hover:bg-blue-600">
+                        <img src="https://api.iconify.design/lucide:send.svg?color=white" alt="Send" class="w-5 h-5">
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="contestsContent" class="hidden">
+            <div class="bg-white rounded-lg shadow-md p-4 max-w-2xl mx-auto">
+                <h2 class="text-xl font-bold mb-4">Upcoming Contests</h2>
+                <ul>
+                    <li class="mb-2">Contest 1: Coding Challenge - <strong>Deadline:</strong> 2024-10-30</li>
+                    <li class="mb-2">Contest 2: Math Olympiad - <strong>Deadline:</strong> 2024-11-20</li>
+                    <li class="mb-2">Contest 3: Science Fair - <strong>Deadline:</strong> 2024-11-14</li>
+                    <li class="mb-2">Contest 4: Art Contest - <strong>Deadline:</strong> 2024-11-25</li>
+                    <li class="mb-2">Contest 5: Geography Bee - <strong>Deadline:</strong> 2024-11-23</li>
+                    <li class="mb-2">Contest 6: Spelling Bee - <strong>Deadline:</strong> 2024-11-17</li>
+                    <li class="mb-2">Contest 7: Robotics Competition - <strong>Deadline:</strong> 2024-11-19</li>
+                    <li class="mb-2">Contest 8: Debate Tournament - <strong>Deadline:</strong> 2024-11-13</li>
+                    <li class="mb-2">Contest 9: Essay Contest - <strong>Deadline:</strong> 2024-11-10</li>
+                    <li class="mb-2">Contest 10: Environmental Challenge - <strong>Deadline:</strong> 2024-11-11</li>
+                    <!-- Add more contest entries here -->
+                </ul>
+            </div>
+        </div>
+
+        <div id="arvrContent" class="hidden">
+            <div class="bg-white rounded-lg shadow-md p-4 max-w-2xl mx-auto">
+                <h2 class="text-xl font-bold mb-4">AR/VR Learning Classroom</h2>
+                <p>Explore interactive AR/VR lessons designed to enhance your learning experience.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-gray-100 p-4 rounded-lg shadow-md">
+                        <h3 class="text-lg font-semibold">AR Lesson 1</h3>
+                        <p>Topic: Virtual Solar System</p>
+                    </div>
+                    <div class="bg-gray-100 p-4 rounded-lg shadow-md">
+                        <h3 class="text-lg font-semibold">VR Lesson 1</h3>
+                        <p>Topic: Human Anatomy Exploration</p>
+                    </div>
+                    <!-- Add more AR/VR lessons here -->
+                </div>
+            </div>
+        </div>
+
+        <div id="teacherDashboard" class="hidden mt-8">
+            <h2 class="text-2xl font-bold mb-4">Teacher Dashboard</h2>
+            <div class="bg-white rounded-lg shadow-md p-4">
+                <h3 class="text-xl font-semibold mb-2">Upload New Lesson</h3>
+                <input type="text" id="lessonTitle" placeholder="Lesson Title"
+                    class="mb-2 w-full p-2 border rounded">
+                <textarea id="lessonDescription" placeholder="Lesson Description"
+                    class="mb-2 w-full p-2 border rounded" rows="3"></textarea>
+                <input type="text" id="lessonImageUrl" placeholder="Image URL"
+                    class="mb-2 w-full p-2 border rounded">
+                <button id="uploadLesson"
+                    class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">Upload Lesson</button>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 text-white p-4">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2024 EduQuest. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="auth.js"></script>
+    <script src="https://widget.cxgenie.ai/widget.js" data-aid="03a9c38b-b5d8-44e4-beed-df027a297b26" data-lang="en"></script>
+</body>
+
+</html>
